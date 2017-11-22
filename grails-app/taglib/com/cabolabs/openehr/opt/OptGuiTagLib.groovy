@@ -7,17 +7,56 @@ class OptGuiTagLib {
     static defaultEncodeAs = [taglib:'raw']
     //static encodeAsForTags = [tagName: [taglib:'html'], otherTagName: [taglib:'none']]
 
+    // icon for each IM type
+    // TODO: more data values
+    static typeIcon = [
+      'FOLDER': 'folder-open',
+      'COMPOSITION': 'file-text-o',
+      'SECTION': 'chevron-left',
+      'OBSERVATION': 'eye',
+      'EVALUATION': 'refresh',
+      'INSTRUCTION': 'paper-plane',
+      'ACTION': 'flash',
+      'ADMIN_ENTRY': 'gear',
+      'ITEM_TREE': 'sitemap',
+      'ITEM_TABLE': 'table',
+      'ITEM_LIST': 'list',
+      'ITEM_SINGLE': 'circle-o',
+      'CLUSTER': 'sitemap',
+      'ELEMENT': 'pencil',
+      'DV_DATE': 'calendar',
+      'DV_DATE_TIME': 'calendar',
+      'DV_TEXT': 'font',
+      'DV_CODED_TEXT': 'list-ul'
+    ]
+
+    // attributes of the IM that are not in the OPT
+    static typeIMAttributes = [:] // TODO
+
     private def traverse(ObjectNode o, body, definition)
     {
        //println " ".multiply(pad) + o.rmTypeName.padRight(35-pad, '.') + (o.archetypeId ?: o.path)
        out << '<div>'
        out << (o.archetypeId ?: o.path)
 
+       out << '<div>'
+       out << o.templatePath
+       out << '</div>'
+
        // changes to the object root to get the terminology term text
        // all terms are on the root nodes
        if (o.archetypeId) definition = o
 
        out << '<div>'
+
+       if (typeIcon[o.rmTypeName])
+       {
+         out << '<span class="fa-stack fa-lg">'
+         out << '<i class="fa fa-circle fa-stack-2x"></i>'
+         out << '<i class="fa fa-'+ typeIcon[o.rmTypeName] +' fa-stack-1x fa-inverse" aria-hidden="true"></i>'
+         out << '</span>'
+       }
+
        out << o.rmTypeName
        out << '</div>'
 
