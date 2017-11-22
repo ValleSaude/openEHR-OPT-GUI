@@ -12,6 +12,7 @@ class OptGuiTagLib {
     static typeIcon = [
       'FOLDER': 'folder-open',
       'COMPOSITION': 'file-text-o',
+      'EVENT_CONTEXT': 'info',
       'SECTION': 'chevron-left',
       'OBSERVATION': 'eye',
       'EVALUATION': 'refresh',
@@ -45,53 +46,88 @@ class OptGuiTagLib {
     // User from datatypes to assign names to internal attributes
     // TODO: complate
     static typeIMAttributeNameEndsWith = [
-      '/defining_code': 'Code',
-      '/value': 'Value'
+      '/defining_code': 'Defining Code',
+      '/value': 'Value',
+      '/category': 'Category'
     ]
 
     private def traverse(ObjectNode o, body, definition)
     {
        //println " ".multiply(pad) + o.rmTypeName.padRight(35-pad, '.') + (o.archetypeId ?: o.path)
-       out << '<div>'
-       out << (o.archetypeId ?: o.path)
+       out << '<div class="'+ o.rmTypeName +'">'
+       //out << (o.archetypeId ?: o.path)
 
-       out << '<div>'
-       out << o.templatePath
-       out << '</div>'
 
-       // changes to the object root to get the terminology term text
-       // all terms are on the root nodes
-       if (o.archetypeId) definition = o
+      // changes to the object root to get the terminology term text
+      // all terms are on the root nodes
+      if (o.archetypeId) definition = o
 
-       out << '<div>'
 
-       if (typeIcon[o.rmTypeName])
+      def s = ''
+      if (typeIcon[o.rmTypeName])
+      {
+        s = $/<span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-${typeIcon[o.rmTypeName]} fa-stack-1x fa-inverse" aria-hidden="true"></i>
+        </span>/$
+      }
+      s = '<h3>'+ s + o.rmTypeName +'<i class="fa fa-caret-up" aria-hidden="true"></i><i class="fa fa-caret-down" aria-hidden="true"></i></h3>'
+
+      row([], { s })
+
+
+      if (o.nodeId)
+      {
+         row([], {
+           $/<label class="col-sm-2 control-label">Text</label>
+           <div class="col-sm-10">${definition.getText(o.nodeId)} (${o.nodeId})</div>/$
+         })
+         row([], {
+           $/<label class="col-sm-2 control-label">Description</label>
+           <div class="col-sm-10">${definition.getDescription(o.nodeId)}</div>/$
+         })
+      }
+      else
+      {
+         def entry = typeIMAttributeNameEndsWith.find { o.path.endsWith(it.key) }
+         if (entry)
+         {
+            row([], {
+              $/<label class="col-sm-2 control-label">Text</label>
+              <div class="col-sm-10">${entry.value}</div>/$
+            })
+         }
+         /* TODO: cant get the parent object right now
+           https://github.com/ppazos/openEHR-OPT/issues/30
+         else
+         {
+           if (typeIMAttributeName[o.parent.rmTypeName] && typeIMAttributeName[o.parent.rmTypeName][o.path])
+           {
+             out << '<div>'
+             out << typeIMAttributeName[o.parent.rmTypeName][o.path]
+             out << '</div>'
+           }
+         }
+         */
+      }
+
+       if (o.archetypeId)
        {
-         out << '<span class="fa-stack fa-lg">'
-         out << '<i class="fa fa-circle fa-stack-2x"></i>'
-         out << '<i class="fa fa-'+ typeIcon[o.rmTypeName] +' fa-stack-1x fa-inverse" aria-hidden="true"></i>'
-         out << '</span>'
+          row([], {
+             $/<label class="col-sm-2 control-label">Archetype ID</label>
+             <div class="col-sm-10">${o.archetypeId}</div>/$
+          })
        }
+       row([], {
+          $/<label class="col-sm-2 control-label">Local Path</label>
+           <div class="col-sm-10">${o.path}</div>/$
+       })
 
-       out << o.rmTypeName
-       out << '</div>'
+       row([], {
+          $/<label class="col-sm-2 control-label">Absolute Path</label>
+          <div class="col-sm-10">${o.templatePath}</div>/$
+        })
 
-       if (o.nodeId)
-       {
-          out << '<div>'
-          out << definition.getText(o.nodeId) +' ('+ o.nodeId +')'
-          out << '</div>'
-       }
-       else
-       {
-          def entry = typeIMAttributeNameEndsWith.find { o.path.endsWith(it.key) }
-          if (entry)
-          {
-            out << '<div>'
-            out << entry.value
-            out << '</div>'
-          }
-       }
 
 
        o.attributes.each{
@@ -110,7 +146,14 @@ class OptGuiTagLib {
        }
     }
 
-    def displayOPT = {attrs, body ->
+    def row = { attrs, body ->
+
+       out << '<div class="row">'
+       out << body()
+       out << '</div>'
+    }
+
+    def displayOPTTree = { attrs, body ->
 
         traverse(attrs.opt.definition, body, attrs.opt.definition)
     }
@@ -123,5 +166,35 @@ class OptGuiTagLib {
           out << path
           out << '</div>'
         }
+    }
+
+    def displayOPT = { attrs, body ->
+
+       def opt = attrs.opt
+
+       row([], {
+          $/<label class="col-sm-2 control-label">UID</label>
+           <div class="col-sm-10">${opt.uid}</div>/$
+       })
+
+       row([], {
+          $/<label class="col-sm-2 control-label">Template ID</label>
+          <div class="col-sm-10">${opt.templateId}</div>/$
+       })
+
+       row([], {
+          $/<label class="col-sm-2 control-label">Concept</label>
+          <div class="col-sm-10">${opt.concept}</div>/$
+       })
+
+       row([], {
+          $/<label class="col-sm-2 control-label">Language</label>
+          <div class="col-sm-10">${opt.language}</div>/$
+       })
+
+       row([], {
+          $/<label class="col-sm-2 control-label">Purpose</label>
+          <div class="col-sm-10">${opt.purpose}</div>/$
+       })
     }
 }
