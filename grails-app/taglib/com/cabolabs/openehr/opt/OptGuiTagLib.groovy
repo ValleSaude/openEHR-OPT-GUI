@@ -33,6 +33,22 @@ class OptGuiTagLib {
     // attributes of the IM that are not in the OPT
     static typeIMAttributes = [:] // TODO
 
+    // names for the IM attributes (in OPT or not in OPT) that don't have a nodeId
+    // so those don't have a term in the ontology.
+    // TODO: I18N
+    static typeIMAttributeName = [
+      'COMPOSITION': [
+        '/category': 'Category'
+      ]
+    ]
+
+    // User from datatypes to assign names to internal attributes
+    // TODO: complate
+    static typeIMAttributeNameEndsWith = [
+      '/defining_code': 'Code',
+      '/value': 'Value'
+    ]
+
     private def traverse(ObjectNode o, body, definition)
     {
        //println " ".multiply(pad) + o.rmTypeName.padRight(35-pad, '.') + (o.archetypeId ?: o.path)
@@ -65,6 +81,16 @@ class OptGuiTagLib {
           out << '<div>'
           out << definition.getText(o.nodeId) +' ('+ o.nodeId +')'
           out << '</div>'
+       }
+       else
+       {
+          def entry = typeIMAttributeNameEndsWith.find { o.path.endsWith(it.key) }
+          if (entry)
+          {
+            out << '<div>'
+            out << entry.value
+            out << '</div>'
+          }
        }
 
 
