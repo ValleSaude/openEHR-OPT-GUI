@@ -37,14 +37,16 @@ class OptGuiTagLib {
     // names for the IM attributes (in OPT or not in OPT) that don't have a nodeId
     // so those don't have a term in the ontology.
     // TODO: I18N
+    /*
     static typeIMAttributeName = [
       'COMPOSITION': [
         '/category': 'Category'
       ]
     ]
+    */
 
     // User from datatypes to assign names to internal attributes
-    // TODO: complate
+    // TODO: complete, and I18N
     static typeIMAttributeNameEndsWith = [
       '/defining_code': 'Defining Code',
       '/value': 'Value',
@@ -58,58 +60,58 @@ class OptGuiTagLib {
        //out << (o.archetypeId ?: o.path)
 
 
-      // changes to the object root to get the terminology term text
-      // all terms are on the root nodes
-      if (o.archetypeId) definition = o
+       // changes to the object root to get the terminology term text
+       // all terms are on the root nodes
+       if (o.archetypeId) definition = o
 
 
-      def s = ''
-      if (typeIcon[o.rmTypeName])
-      {
-        s = $/<span class="fa-stack fa-lg">
-        <i class="fa fa-circle fa-stack-2x"></i>
-        <i class="fa fa-${typeIcon[o.rmTypeName]} fa-stack-1x fa-inverse" aria-hidden="true"></i>
-        </span>/$
-      }
-      s = '<h3>'+ s + o.rmTypeName +'<i class="fa fa-caret-up" aria-hidden="true"></i><i class="fa fa-caret-down" aria-hidden="true"></i></h3>'
+       def s = ''
+       if (typeIcon[o.rmTypeName])
+       {
+          s = $/<span class="fa-stack fa-lg">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-${typeIcon[o.rmTypeName]} fa-stack-1x fa-inverse" aria-hidden="true"></i>
+          </span>/$
+       }
+       s = '<h3>'+ s + o.rmTypeName +'<i class="fa fa-caret-up" aria-hidden="true"></i><i class="fa fa-caret-down" aria-hidden="true"></i></h3>'
 
-      row([], { s })
+       row([], { s })
 
 
-      if (o.nodeId)
-      {
-         row([], {
-           $/<label class="col-sm-2 control-label">Text</label>
-           <div class="col-sm-10">${definition.getText(o.nodeId)} (${o.nodeId})</div>/$
-         })
-         row([], {
-           $/<label class="col-sm-2 control-label">Description</label>
-           <div class="col-sm-10">${definition.getDescription(o.nodeId)}</div>/$
-         })
-      }
-      else
-      {
-         def entry = typeIMAttributeNameEndsWith.find { o.path.endsWith(it.key) }
-         if (entry)
-         {
-            row([], {
-              $/<label class="col-sm-2 control-label">Text</label>
-              <div class="col-sm-10">${entry.value}</div>/$
-            })
-         }
-         /* TODO: cant get the parent object right now
+       if (o.nodeId)
+       {
+          row([], {
+            $/<label class="col-sm-2 control-label">Text</label>
+            <div class="col-sm-10">${definition.getText(o.nodeId)} (${o.nodeId})</div>/$
+          })
+          row([], {
+            $/<label class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">${definition.getDescription(o.nodeId)}</div>/$
+          })
+       }
+       else
+       {
+          def entry = typeIMAttributeNameEndsWith.find { o.path.endsWith(it.key) }
+          if (entry)
+          {
+             row([], {
+               $/<label class="col-sm-2 control-label">Text</label>
+               <div class="col-sm-10">${entry.value}</div>/$
+             })
+          }
+          /* TODO: cant get the parent object right now
            https://github.com/ppazos/openEHR-OPT/issues/30
-         else
-         {
-           if (typeIMAttributeName[o.parent.rmTypeName] && typeIMAttributeName[o.parent.rmTypeName][o.path])
-           {
-             out << '<div>'
-             out << typeIMAttributeName[o.parent.rmTypeName][o.path]
-             out << '</div>'
-           }
-         }
-         */
-      }
+          else
+          {
+             if (typeIMAttributeName[o.parent.rmTypeName] && typeIMAttributeName[o.parent.rmTypeName][o.path])
+             {
+                out << '<div>'
+                out << typeIMAttributeName[o.parent.rmTypeName][o.path]
+                out << '</div>'
+             }
+          }
+          */
+       }
 
        if (o.archetypeId)
        {
@@ -118,17 +120,25 @@ class OptGuiTagLib {
              <div class="col-sm-10">${o.archetypeId}</div>/$
           })
        }
+
+       // paths
        row([], {
           $/<label class="col-sm-2 control-label">Local Path</label>
            <div class="col-sm-10">${o.path}</div>/$
        })
-
        row([], {
           $/<label class="col-sm-2 control-label">Absolute Path</label>
           <div class="col-sm-10">${o.templatePath}</div>/$
-        })
+       })
 
-
+       // is slot?
+       if (o.type == 'ARCHETYPE_SLOT')
+       {
+         row([], {
+            $/<label class="col-sm-2 control-label">Undefined slot to</label>
+            <div class="col-sm-10">${o.xmlNode.includes.expression.right_operand.item.pattern.text()}</div>/$
+         })
+       }
 
        o.attributes.each{
           traverse(it, body, definition)

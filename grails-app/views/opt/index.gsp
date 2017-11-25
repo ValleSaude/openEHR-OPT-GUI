@@ -65,6 +65,9 @@
       h3 {
         margin-top: 0;
       }
+      h3 i {
+        margin-left: 5px;
+      }
       h3 > i.fa-caret-up, h3.folded > i.fa-caret-down {
         display: none;
       }
