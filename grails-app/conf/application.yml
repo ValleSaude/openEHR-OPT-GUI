@@ -3,6 +3,11 @@ server:
     port: 8095
 
 ---
+app:
+    opt_xsd: "xsd/OperationalTemplate.xsd"
+    version_xsd: "xsd/Version.xsd"
+    opt_repo: "opts"
+---
 grails:
     profile: web
     codegen:
@@ -75,6 +80,9 @@ grails:
             maxsize: 1000
     controllers:
         defaultScope: singleton
+        upload:
+            maxFileSize: 2097152 # 2MB
+            maxRequestSize: 2097152
     converters:
         encoding: UTF-8
     views:

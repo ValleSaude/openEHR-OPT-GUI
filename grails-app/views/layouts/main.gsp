@@ -19,6 +19,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
     <style type="text/css">
+    h1 {
+      margin-bottom: 0.8em;
+      padding-bottom: 0.2em;
+      border-bottom: 1px solid #D4D4D4;
+    }
     .card {
       display: block;
        margin-bottom: 1.2rem !important;
@@ -105,7 +110,7 @@
   </head>
   <body>
     <header>
-      TODO: logo + collapse menu for mobile
+      <!--TODO: logo + collapse menu for mobile-->
     </header>
     <main>
       <g:layoutBody/>

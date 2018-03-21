@@ -2,10 +2,12 @@ package com.cabolabs.openehr.opt
 
 import grails.transaction.Transactional
 
+import com.cabolabs.openehr.opt.model.*
+
 @Transactional
 class OptService {
 
-   def templateToJson(OperationalTemplate opt)
+   def templateToJSON(OperationalTemplate opt)
    {
 
    }
@@ -25,8 +27,18 @@ class OptService {
 
    }
 
+   def validateTemplateInstance(String xml)
+   {
+
+   }
+
    def validateDocumentInstance(String xml)
    {
-      
+
+   }
+
+   def documentInstanceToHTML(String xml)
+   {
+
    }
 }
