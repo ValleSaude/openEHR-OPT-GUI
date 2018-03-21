@@ -85,9 +85,12 @@
 
         <h2>Tree</h2>
         <g:displayOPTTree opt="${entry.value}" />
+
+        <%--
         <hr/>
         <h2>Plain</h2>
         <g:displayOPTNodes opt="${entry.value}" />
+        --%>
       </g:each>
     </div>
     <script>

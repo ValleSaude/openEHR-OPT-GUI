@@ -12,15 +12,14 @@
   <body>
     <section>
       <div class="container">
-        <h1>Template Viewer</h1>
+        <h1>HTML Form Generator</h1>
 
         <p>
-          This service allows to upload an openEHR Operational Template (OPT), display it's tree structure,
-          and access useful technical information on each node, like Reference Model Class, Archetype ID,
-          Path, and Constraints.
+          This service allows to generate HTML Forms for data input from openEHR Operational Templates (OPT).
+          This is useful for quick prototyping of clinical data recording apps. 
         </p>
 
-        <g:uploadForm action="template_viewer">
+        <g:uploadForm action="html_form_generator">
 
           <div class="form-group row">
             <div class="col-md-3">
@@ -35,7 +34,7 @@
               <button class="btn btn-primary mb-2" type="submit" name="doit" value="yeah">Submit</button>
             </div>
           </div>
-          
+
         </g:uploadForm>
 
       </div>

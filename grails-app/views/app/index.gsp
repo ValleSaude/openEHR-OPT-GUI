@@ -109,14 +109,14 @@
              </div>
              <div class="card-body no-bottom">
                 <h4 class="card-title text-center">
-                  <a href="http://www.cabolabs.com/">HTML Form Generator</a>
+                  <g:link controller="opt" action="html_form_generator">HTML Form Generator</g:link>
                 </h4>
                 <p class="card-text">
                   This service allows to generate HTML Forms for data input from openEHR Operational Templates (OPT).
                   This is useful for quick prototyping of clinical data recording apps.
                 </p>
                 <div class="card-read-more text-center">
-                  <a class="btn btn-link" href="http://www.cabolabs.com/">Read More</a>
+                <g:link class="btn btn-link" controller="opt" action="html_form_generator">Read More</g:link>
                 </div>
              </div>
           </div>
@@ -127,14 +127,14 @@
              </div>
              <div class="card-body no-bottom">
                 <h4 class="card-title text-center">
-                  <a href="http://www.cabolabs.com/">Template to JSON</a>
+                  <g:link controller="opt" action="template_to_json">Template to JSON</g:link>
                 </h4>
                 <p class="card-text">
                   This service allows to transform openEHR Operational Templates (OPT) in XML to an equivalent
                   JSON structure. This is very useful to work with OPTs in the front-end and JavaScript frameworks.
                 </p>
                 <div class="card-read-more text-center">
-                  <a class="btn btn-link" href="http://www.cabolabs.com/">Read More</a>
+                  <g:link class="btn btn-link" controller="opt" action="template_to_json">Read More</g:link>
                 </div>
              </div>
           </div>

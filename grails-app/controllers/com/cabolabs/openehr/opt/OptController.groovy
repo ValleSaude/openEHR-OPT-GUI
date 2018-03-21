@@ -8,10 +8,12 @@ import grails.converters.JSON
 import net.pempek.unicode.UnicodeBOMInputStream
 import com.cabolabs.openehr.opt.parser.*
 import com.cabolabs.openehr.opt.serializer.*
+import com.cabolabs.openehr.opt.ui_generator.OptUiGenerator
 
 class OptController {
 
    def xmlValidationService
+   def optService
 
 
    def index()
@@ -30,76 +32,81 @@ class OptController {
    /**
     * Util method to process files uploaded from the UI.
     */
-   private processUpload(name, request, response, session)
+   private Map processUpload(name, request, response, session)
    {
+      def errors = []
+      def f = request.getFile(name)
 
+      if(f.empty)
+      {
+         errors << message(code:"opt.upload.error.noOPT")
+         res = [status:'error', message:'XML validation errors', errors: errors]
+         return res
+      }
+
+      // Avoid BOM on OPT files (the Template Designer exports OPTs with BOM and that breaks the XML parser)
+      def bytes = f.getBytes()
+      def inputStream = new ByteArrayInputStream(bytes)
+      def bomInputStream = new UnicodeBOMInputStream(inputStream)
+      bomInputStream.skipBOM() // NOP if no BOM is detected
+
+      // Read out
+      def isr = new InputStreamReader(bomInputStream)
+      def br = new BufferedReader(isr)
+      def xml = br.text // getText from Groovy
+
+      return [status:'ok', contents:xml]
    }
 
    def template_viewer()
    {
-      println params
-      
-      // TODO: move to service
       if (params.doit)
       {
-         def f = request.getFile('file')
-
-         if(f.empty)
+         // UPLOAD
+         def upload = processUpload('file', request, response, session)
+         if (upload.status == 'error')
          {
-            errors << message(code:"opt.upload.error.noOPT")
-            res = [status:'error', message:'XML validation errors', errors: errors]
-            render(text: res as JSON, contentType:"application/json", encoding:"UTF-8")
+            render(text: upload as JSON, contentType:"application/json", encoding:"UTF-8")
             return
          }
 
-         // Avoid BOM on OPT files (the Template Designer exports OPTs with BOM and that breaks the XML parser)
-         def bytes = f.getBytes()
-         def inputStream = new ByteArrayInputStream(bytes)
-         def bomInputStream = new UnicodeBOMInputStream(inputStream)
-         bomInputStream.skipBOM() // NOP if no BOM is detected
+         def xml = upload.contents
 
-         // Read out
-         def isr = new InputStreamReader(bomInputStream)
-         def br = new BufferedReader(isr)
-         def xml = br.text // getText from Groovy
 
-         // Validate XML
-         if (!xmlValidationService.validateOPT(xml))
+         // VALIDATE
+         def validation = optService.validateTemplateInstance(xml)
+         if (validation.status == 'error')
          {
-            errors = xmlValidationService.getErrors() // Important to keep the correspondence between version index and error reporting.
-            res = [status:'error', message:'XML validation errors', errors: errors]
-            render(text: res as JSON, contentType:"application/json", encoding:"UTF-8")
+            render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
             return
          }
 
 
+         // STORE
+         /*
          def opt_repo = grailsApplication.config.getProperty('app.opt_repo', String)
 
-         // Prepare file
          def destination = opt_repo + '/com.cabolabs.openehr_opt.namespaces.default/' + java.util.UUID.randomUUID() + '.opt'
          File fileDest = new File( destination )
          fileDest << xml
+         */
 
 
+         // REFRESH CACHE
+         /*
          def man = OptManager.getInstance(opt_repo)
          man.unloadAll()
          man.loadAll()
+         */
 
-         // TODO: render from loaded in manager
 
          // Parse to get the template id
          //def slurper = new XmlSlurper(false, false)
          //def template = slurper.parseText(xml)
 
 
-         def parser = new OperationalTemplateParser()
-         def opt = parser.parse(xml)
-         def toJson = new JsonSerializer()
-         toJson.serialize(opt)
-         def json = toJson.get(true)
-
-         render(text: json as JSON, contentType:"application/json", encoding:"UTF-8")
-         return
+         // RENDER WITH TAGLIB
+         render (view: 'index', model: [opts: [(opt.templateId): opt]])
       }
    }
 
@@ -107,7 +114,34 @@ class OptController {
    {
       if (params.doit)
       {
+         // UPLOAD
+         def upload = processUpload('file', request, response, session)
+         if (upload.status == 'error')
+         {
+            render(text: upload as JSON, contentType:"application/json", encoding:"UTF-8")
+            return
+         }
 
+         def xml = upload.contents
+
+
+         // VALIDATE
+         def validation = optService.validateTemplateInstance(xml)
+         if (validation.status == 'error')
+         {
+            render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
+            return
+         }
+
+
+         // OPT2JSON
+         def parser = new OperationalTemplateParser()
+         def opt = parser.parse(xml)
+         def json = optService.templateToJSON(opt)
+
+
+         render(text: json, contentType:"application/json", encoding:"UTF-8")
+         return
       }
    }
 
@@ -116,6 +150,41 @@ class OptController {
       if (params.doit)
       {
 
+      }
+   }
+
+   def html_form_generator()
+   {
+      if (params.doit)
+      {
+         // UPLOAD
+         def upload = processUpload('file', request, response, session)
+         if (upload.status == 'error')
+         {
+            render(text: upload as JSON, contentType:"application/json", encoding:"UTF-8")
+            return
+         }
+
+         def xml = upload.contents
+
+
+         // VALIDATE
+         def validation = optService.validateTemplateInstance(xml)
+         if (validation.status == 'error')
+         {
+            render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
+            return
+         }
+
+
+         // HTML FORM - TODO: move to service
+         def parser = new OperationalTemplateParser()
+         def opt = parser.parse(xml)
+         def gen = new OptUiGenerator()
+         def html = gen.generate(opt)
+
+         render(text: html, contentType:"text/html", encoding:"UTF-8")
+         return
       }
    }
 }
