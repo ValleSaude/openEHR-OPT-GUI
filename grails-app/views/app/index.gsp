@@ -91,14 +91,14 @@
              </div>
              <div class="card-body no-bottom">
                 <h4 class="card-title text-center">
-                  <a href="http://www.cabolabs.com/">Clinical Document Instance Validator</a>
+                  <g:link controller="opt" action="xml_instance_validator">Clinical Document Instance Validator</g:link>
                 </h4>
                 <p class="card-text">
                   This service allows to upload a clinical document in the openEHR XML Format, and
                   execute a sintactic validation, returning a list of errors if something is not correct.
                 </p>
                 <div class="card-read-more text-center">
-                  <a class="btn btn-link" href="http://www.cabolabs.com/">Read More</a>
+                  <g:link class="btn btn-link" controller="opt" action="xml_instance_validator">Read More</g:link>
                 </div>
              </div>
           </div>
@@ -170,6 +170,25 @@
                 </p>
                 <div class="card-read-more text-center">
                   <a class="btn btn-link" href="https://www.openehr.org/" target="_blank">Read More</a>
+                </div>
+             </div>
+          </div>
+
+          <div class="card">
+             <div class="card-img-top center">
+               <img src="/static/CloudEHRServer_alpha_72.png" />
+             </div>
+             <div class="card-body no-bottom">
+                <h4 class="card-title text-center">
+                  <a href="https://cloudehrserver.com" target="_blank">CloudEHRServer</a>
+                </h4>
+                <p class="card-text">
+                  Next generation, Clinical Data Management and Sharing Platform, based on open source
+                  technologies, and compliant with the openEHR standard. Manage EHRs, store openEHR clinical
+                  documents, and query data with ease from a REST API.
+                </p>
+                <div class="card-read-more text-center">
+                  <a class="btn btn-link" href="https://cloudehrserver.com" target="_blank">Read More</a>
                 </div>
              </div>
           </div>

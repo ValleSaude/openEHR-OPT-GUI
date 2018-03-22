@@ -8,7 +8,7 @@ import grails.converters.JSON
 import net.pempek.unicode.UnicodeBOMInputStream
 import com.cabolabs.openehr.opt.parser.*
 import com.cabolabs.openehr.opt.serializer.*
-import com.cabolabs.openehr.opt.ui_generator.OptUiGenerator
+
 
 class OptController {
 
@@ -149,7 +149,29 @@ class OptController {
    {
       if (params.doit)
       {
+         // UPLOAD
+         def upload = processUpload('file', request, response, session)
+         if (upload.status == 'error')
+         {
+            //render(text: upload as JSON, contentType:"application/json", encoding:"UTF-8")
 
+            return [result: upload]
+         }
+
+         def xml = upload.contents
+
+
+         // VALIDATE
+         def validation = optService.validateDocumentInstance(xml)
+         //render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
+         return [result: validation]
+         /*
+         if (validation.status == 'error')
+         {
+            render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
+            return
+         }
+         */
       }
    }
 
@@ -178,10 +200,7 @@ class OptController {
 
 
          // HTML FORM - TODO: move to service
-         def parser = new OperationalTemplateParser()
-         def opt = parser.parse(xml)
-         def gen = new OptUiGenerator()
-         def html = gen.generate(opt)
+         def html = optService.documentInstanceToHTML(xml)
 
          render(text: html, contentType:"text/html", encoding:"UTF-8")
          return
