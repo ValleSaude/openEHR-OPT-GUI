@@ -10,6 +10,11 @@ import com.cabolabs.openehr.opt.parser.*
 import com.cabolabs.openehr.opt.serializer.*
 
 
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.stream.StreamResult
+import javax.xml.transform.stream.StreamSource
+
+
 class OptController {
 
    def xmlValidationService
@@ -74,7 +79,7 @@ class OptController {
 
 
          // VALIDATE
-         def validation = optService.validateTemplateInstance(xml)
+         def validation = optService.templateValidator(xml)
          if (validation.status == 'error')
          {
             render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
@@ -126,7 +131,7 @@ class OptController {
 
 
          // VALIDATE
-         def validation = optService.validateTemplateInstance(xml)
+         def validation = optService.templateValidator(xml)
          if (validation.status == 'error')
          {
             render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
@@ -191,7 +196,7 @@ class OptController {
 
 
          // VALIDATE
-         def validation = optService.validateTemplateInstance(xml)
+         def validation = optService.templateValidator(xml)
          if (validation.status == 'error')
          {
             render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
@@ -200,10 +205,95 @@ class OptController {
 
 
          // HTML FORM - TODO: move to service
-         def html = optService.documentInstanceToHTML(xml)
+         def html = optService.templateToHTML(xml)
 
          render(text: html, contentType:"text/html", encoding:"UTF-8")
          return
+      }
+   }
+
+   def xml_instance_generator()
+   {
+      if (params.doit)
+      {
+         // UPLOAD
+         def upload = processUpload('file', request, response, session)
+         if (upload.status == 'error')
+         {
+            render(text: upload as JSON, contentType:"application/json", encoding:"UTF-8")
+            return
+         }
+
+         def xml = upload.contents
+
+
+         // VALIDATE
+         def validation = optService.templateValidator(xml)
+         if (validation.status == 'error')
+         {
+            return [result: validation]
+         }
+
+
+         // XML INSTANCE WITH RANDOM DATA
+         def instance = optService.clinicalDocumentGeneratorXML(xml)
+
+         //render(text: instance, contentType:"text/xml", encoding:"UTF-8")
+         return [result: [status:'ok', message:'Your instance is ready!', instance:instance]]
+      }
+   }
+
+   def json_instance_generator()
+   {
+      // TODO
+   }
+
+   def html_instance_render()
+   {
+      if (params.doit)
+      {
+         // UPLOAD
+         def upload = processUpload('file', request, response, session)
+         if (upload.status == 'error')
+         {
+            //render(text: upload as JSON, contentType:"application/json", encoding:"UTF-8")
+
+            return [result: upload]
+         }
+
+         def xml = upload.contents
+
+
+         // VALIDATE
+         def validation = optService.validateDocumentInstance(xml)
+
+         if (validation.status == 'error')
+         {
+            return [result: validation]
+            return
+         }
+
+         // TODO: move to service
+         def xslt = new File('xsd/openEHR_RMtoHTML.xsl')
+         def xslt_content
+         if (!xslt.exists()) // try to load from resources
+         {
+            xslt_content = grailsApplication.parentContext.getResource('xsd/openEHR_RMtoHTML.xsl').inputStream.text
+         }
+         else
+         {
+            xslt_content = xslt.text
+         }
+
+         // Create transformer
+         def transformer = TransformerFactory.newInstance().newTransformer(new StreamSource(new StringReader(xslt_content)))
+
+         def html = new StringWriter()
+
+         // Perform transformation
+         transformer.transform(new StreamSource(new StringReader(xml)), new StreamResult(html))
+
+         return [result: [status:'ok', message:'Your HTML is ready!', html:html.toString()]]
       }
    }
 }

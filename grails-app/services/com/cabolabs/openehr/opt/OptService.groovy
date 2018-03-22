@@ -6,6 +6,7 @@ import com.cabolabs.openehr.opt.model.*
 import com.cabolabs.openehr.opt.serializer.*
 import com.cabolabs.openehr.opt.ui_generator.OptUiGenerator
 import com.cabolabs.openehr.opt.parser.*
+import com.cabolabs.openehr.opt.instance_generator.*
 
 @Transactional
 class OptService {
@@ -19,9 +20,13 @@ class OptService {
       return toJson.get()
    }
 
-   def clinicalDocumentGeneratorXML(OperationalTemplate opt)
+   def clinicalDocumentGeneratorXML(String xml)
    {
-
+      def parser = new OperationalTemplateParser()
+      def opt = parser.parse(xml)
+      def igen = new XmlInstanceGenerator()
+      def ins = igen.generateXMLVersionStringFromOPT(opt)
+      return ins
    }
 
    def clinicalDocumentGeneratorJSON(OperationalTemplate opt)
@@ -29,12 +34,16 @@ class OptService {
 
    }
 
-   def generateHTML(OperationalTemplate opt)
+   def templateToHTML(String xml)
    {
-
+      def parser = new OperationalTemplateParser()
+      def opt = parser.parse(xml)
+      def gen = new OptUiGenerator()
+      def html = gen.generate(opt)
+      return html
    }
 
-   def validateTemplateInstance(String xml)
+   def templateValidator(String xml)
    {
       if (!xmlValidationService.validateOPT(xml))
       {
@@ -56,12 +65,11 @@ class OptService {
       return [status:'ok', message:'XML instance is valid!']
    }
 
+   /**
+    * Uses XSLT to transform a composition in XML to HTML.
+    */
    def documentInstanceToHTML(String xml)
    {
-      def parser = new OperationalTemplateParser()
-      def opt = parser.parse(xml)
-      def gen = new OptUiGenerator()
-      def html = gen.generate(opt)
-      return html
+
    }
 }

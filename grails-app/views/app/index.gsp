@@ -55,14 +55,14 @@
              </div>
              <div class="card-body no-bottom">
                 <h4 class="card-title text-center">
-                  <a href="http://www.cabolabs.com/">Clinical Document Instance Generator XML</a>
+                  <g:link controller="opt" action="xml_instance_generator">Clinical Document Instance Generator XML</g:link>
                 </h4>
                 <p class="card-text">
                   This service generates Clinical Document Instances compliant with the openEHR XML Format,
                   from a given Operational Template (OPT). This is very useful while testing applications.
                 </p>
                 <div class="card-read-more text-center">
-                  <a class="btn btn-link" href="http://www.cabolabs.com/">Read More</a>
+                  <g:link class="btn btn-link" controller="opt" action="xml_instance_generator">Read More</g:link>
                 </div>
              </div>
           </div>
@@ -145,14 +145,14 @@
              </div>
              <div class="card-body no-bottom">
                 <h4 class="card-title text-center">
-                  <a href="http://www.cabolabs.com/">HTML Clinical Document Render</a>
+                  <g:link controller="opt" action="html_instance_render">HTML Clinical Document Render</g:link>
                 </h4>
                 <p class="card-text">
                   This service allows to generate human-readable openEHR Clinical Documents from a valid
                   openEHR XML Instance. This is very useful for testing and sharing with non-technical people.
                 </p>
                 <div class="card-read-more text-center">
-                  <a class="btn btn-link" href="http://www.cabolabs.com/">Read More</a>
+                  <g:link class="btn btn-link" controller="opt" action="html_instance_render">Read More</g:link>
                 </div>
              </div>
           </div>

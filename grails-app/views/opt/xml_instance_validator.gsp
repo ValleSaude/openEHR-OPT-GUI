@@ -49,11 +49,11 @@
 
           <div class="form-group row">
             <div class="col-md-3">
-              <label class="align-label">Upload an openEHR instance:</label>
+              <label class="align-label">Upload an openEHR template:</label>
             </div>
             <div class="custom-file col-md-7">
               <input type="file" class="custom-file-input" name="file" id="validatedCustomFile" required="true">
-              <label class="custom-file-label" for="validatedCustomFile">Choose Clinical Document XML File...</label>
+              <label class="custom-file-label" for="validatedCustomFile">Choose Operational Template XML File...</label>
               <div class="invalid-feedback">Example invalid custom file feedback</div>
             </div>
             <div class="col-md-2">
@@ -71,7 +71,11 @@
         <div class="container">
           <h2>${result.message}</h2>
           <g:if test="${result.errors}">
-            <%-- REF https://getbootstrap.com/docs/4.0/components/list-group/ --%>
+
+            <g:xml_validation_errors errors="${result.errors}" />
+
+
+            <%-- REF https://getbootstrap.com/docs/4.0/components/list-group/
             <div class="row">
               <div class="col-4">
                 <div class="list-group" id="list-tab" role="tablist">
@@ -94,6 +98,8 @@
                 </div>
               </div>
             </div>
+           --%>
+
           </g:if>
           <g:else>
 
