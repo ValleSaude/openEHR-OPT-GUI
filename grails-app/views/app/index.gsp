@@ -8,7 +8,6 @@
     <section>
       <div class="container">
         <h1>CaboLabs openEHR Toolkit (CoT)</h1>
-        <!-- ${createLink(uri: '/')} -->
 <%--
         <ul>
           <li>*Template Viewer</li>
@@ -164,13 +163,13 @@
              </div>
              <div class="card-body no-bottom">
                 <h4 class="card-title text-center">
-                  <a href="https://www.openehr.org/" target="_blank">openEHR Specifications v1.0.2</a>
+                  <a href="https://www.openehr.org/programs/specification/1.0.2" target="_blank">openEHR Specifications v1.0.2</a>
                 </h4>
                 <p class="card-text">
                   Direct access to the specifications of the openEHR standard for reference.
                 </p>
                 <div class="card-read-more text-center">
-                  <a class="btn btn-link" href="https://www.openehr.org/" target="_blank">Read More</a>
+                  <a class="btn btn-link" href="https://www.openehr.org/programs/specification/1.0.2" target="_blank">Read More</a>
                 </div>
              </div>
           </div>

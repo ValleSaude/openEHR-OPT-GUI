@@ -107,15 +107,14 @@
 
   </head>
   <body>
-    <header>
-      <!--TODO: logo + collapse menu for mobile-->
-    </header>
     <main>
+
+      <!-- ${createLink(uri: '/')} .... ${request.forwardURI} -->
       <div class="container">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
-            <g:if test="${request.forwardURI != '/'}">
+            <li class="breadcrumb-item"><a href="${createLink(uri: '/')}"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+            <g:if test="${request.forwardURI != createLink(uri: '/')}">
               <li class="breadcrumb-item active" aria-current="page">${actionName?.split('_')?.join(' ')}</li>
             </g:if>
           </ol>
