@@ -7,22 +7,23 @@
   <body>
     <section>
       <div class="container">
-        <h1>Service Marketplace</h1>
+        <h1>CaboLabs openEHR Toolkit (CoT)</h1>
 
 <%--
         <ul>
-          <li>Template Viewer</li>
+          <li>*Template Viewer</li>
           <li>Archetype Viewer (soon!)</li>
-          <li>Clinical Document Instance Generator (random data XML)</li>
+          <li>*Clinical Document Instance Generator (random data XML)</li>
           <li>Clinical Document Instance Generator (tagged XML)</li>
-          <li>Clinical Document Instance Generator (random data JSON)</li>
+          <li>*Clinical Document Instance Generator (random data JSON)</li>
           <li>Bulk Clinical Document Instance Generator (soon!)</li>
-          <li>Clinical Document Instance Validator</li>
-          <li>HTML Form Generator</li>
-          <li>Template to JSON</li>
+          <li>*Clinical Document Instance Validator</li>
+          <li>*HTML Form Generator</li>
+          <li>*Template to JSON</li>
           <li>Template Comparator (soon!)</li>
           <li>Template Repository (soon!)</li>
-          <li>HTML Clinical Document Render</li>
+          <li>*HTML Clinical Document Render</li>
+          <li>Sample Templates (soon!)</li>
         </ul>
 --%>
 
@@ -73,14 +74,14 @@
              </div>
              <div class="card-body no-bottom">
                 <h4 class="card-title text-center">
-                  <a href="http://www.cabolabs.com/">Clinical Document Instance Generator JSON</a>
+                  <g:link controller="opt" action="json_instance_generator">Clinical Document Instance Generator JSON</g:link>
                 </h4>
                 <p class="card-text">
                   This service generates openEHR Clinical Document Instances in JSON,
                   from a given Operational Template (OPT). This is very useful while testing applications.
                 </p>
                 <div class="card-read-more text-center">
-                  <a class="btn btn-link" href="http://www.cabolabs.com/">Read More</a>
+                  <g:link class="btn btn-link" controller="opt" action="json_instance_generator">Read More</g:link>
                 </div>
              </div>
           </div>

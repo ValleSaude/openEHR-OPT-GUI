@@ -16,7 +16,7 @@
 
         <p>
           This service allows to generate HTML Forms for data input from openEHR Operational Templates (OPT).
-          This is useful for quick prototyping of clinical data recording apps. 
+          This is useful for quick prototyping of clinical data recording apps.
         </p>
 
         <g:uploadForm action="html_form_generator">
@@ -36,6 +36,24 @@
           </div>
 
         </g:uploadForm>
+
+        <g:if test="${result}">
+          <section>
+            <div class="container">
+              <h2>${result.message}</h2>
+              <g:if test="${result.errors}">
+
+                <g:xml_validation_errors errors="${result.errors}" />
+
+              </g:if>
+              <g:else>
+
+                <div>${raw(result.html)}</div>
+
+              </g:else>
+            </div>
+          </section>
+        </g:if>
 
       </div>
     </section>

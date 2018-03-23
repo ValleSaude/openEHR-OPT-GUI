@@ -17,7 +17,7 @@ class OptService {
    {
       def toJson = new JsonSerializer()
       toJson.serialize(opt)
-      return toJson.get()
+      return toJson.get(true)
    }
 
    def clinicalDocumentGeneratorXML(String xml)
@@ -29,9 +29,13 @@ class OptService {
       return ins
    }
 
-   def clinicalDocumentGeneratorJSON(OperationalTemplate opt)
+   def clinicalDocumentGeneratorJSON(String xml)
    {
-
+      def parser = new OperationalTemplateParser()
+      def opt = parser.parse(xml)
+      def igen = new JsonInstanceGenerator()
+      def ins = igen.generateJSONCompositionStringFromOPT(opt, true)
+      return ins
    }
 
    def templateToHTML(String xml)

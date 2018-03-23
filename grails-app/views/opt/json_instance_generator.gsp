@@ -10,19 +10,19 @@
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css" integrity="sha256-w6kCMnFvhY2tI1OnsYR/rb5DG9yFGodJknvFZOkp51E=" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js" integrity="sha256-tTizFdjdqBNNTjhOdrSB4jSoCiSZjbtQBdsUSl+P+PQ=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js" integrity="sha256-tTizFdjdqBNNTjhOdrSB4jSoCiSZjbtQBdsUSl+P+PQ=" crossorigin="anonymous"></script>
   </head>
   <body>
     <section>
       <div class="container">
-        <h1>Clinical Document Instance Generator XML</h1>
+        <h1>Clinical Document Instance Generator JSON</h1>
 
         <p>
-          This service generates Clinical Document Instances compliant with the openEHR XML Format,
-          from a given Operational Template (OPT). This is very useful while testing applications.
+          This service generates openEHR Clinical Document Instances in JSON, from a given
+          Operational Template (OPT). This is very useful while testing applications.
         </p>
 
-        <g:uploadForm url="[action: 'xml_instance_generator']" id="xml_instance_generator_form">
+        <g:uploadForm url="[action: 'json_instance_generator']" id="xml_instance_generator_form">
 
           <div class="form-group row">
             <div class="col-md-3">
@@ -54,7 +54,7 @@
           </g:if>
           <g:else>
 
-            <pre><code class="xml">${result.instance}</code></pre>
+            <pre><code class="json">${result.instance}</code></pre>
 
             <script>
             $(document).ready(function() {

@@ -116,7 +116,7 @@
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="/"><i class="fa fa-home" aria-hidden="true"></i></a></li>
             <g:if test="${request.forwardURI != '/'}">
-              <li class="breadcrumb-item active" aria-current="page">${actionName?.split('_').join(' ')}</li>
+              <li class="breadcrumb-item active" aria-current="page">${actionName?.split('_')?.join(' ')}</li>
             </g:if>
           </ol>
         </nav>

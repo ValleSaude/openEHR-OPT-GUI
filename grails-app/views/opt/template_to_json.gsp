@@ -8,6 +8,9 @@
         padding: .375em .75em; /* fixes vertical alignment of label for inline form */
       }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/vs.min.css" integrity="sha256-w6kCMnFvhY2tI1OnsYR/rb5DG9yFGodJknvFZOkp51E=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js" integrity="sha256-tTizFdjdqBNNTjhOdrSB4jSoCiSZjbtQBdsUSl+P+PQ=" crossorigin="anonymous"></script>
   </head>
   <body>
     <section>
@@ -39,5 +42,32 @@
 
       </div>
     </section>
+
+    <g:if test="${result}">
+      <section>
+        <div class="container">
+          <h2>${result.message}</h2>
+          <g:if test="${result.errors}">
+
+            <g:xml_validation_errors errors="${result.errors}" />
+
+          </g:if>
+          <g:else>
+
+            <pre><code class="json">${result.json}</code></pre>
+
+            <script>
+            $(document).ready(function() {
+              $('pre code').each(function(i, block) {
+                hljs.highlightBlock(block);
+              });
+            });
+            </script>
+
+          </g:else>
+        </div>
+      </section>
+    </g:if>
+
   </body>
 </html>

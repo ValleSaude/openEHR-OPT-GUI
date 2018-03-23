@@ -20,7 +20,7 @@ class OptController {
    def xmlValidationService
    def optService
 
-
+   /*
    def index()
    {
       String PS = File.separator
@@ -33,6 +33,7 @@ class OptController {
 
       [opts: man.getLoadedOpts('test_namespace')]
    }
+   */
 
    /**
     * Util method to process files uploaded from the UI.
@@ -82,7 +83,7 @@ class OptController {
          def validation = optService.templateValidator(xml)
          if (validation.status == 'error')
          {
-            render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
+            return [result: validation]
             return
          }
 
@@ -109,9 +110,12 @@ class OptController {
          //def slurper = new XmlSlurper(false, false)
          //def template = slurper.parseText(xml)
 
+         def parser = new OperationalTemplateParser()
+         def opt = parser.parse(xml)
+
 
          // RENDER WITH TAGLIB
-         render (view: 'index', model: [opts: [(opt.templateId): opt]])
+         return [result: [status:'ok', message:'Take a look at the template!', opts: [(opt.templateId): opt]]]
       }
    }
 
@@ -134,8 +138,7 @@ class OptController {
          def validation = optService.templateValidator(xml)
          if (validation.status == 'error')
          {
-            render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
-            return
+            return [result: validation]
          }
 
 
@@ -144,9 +147,7 @@ class OptController {
          def opt = parser.parse(xml)
          def json = optService.templateToJSON(opt)
 
-
-         render(text: json, contentType:"application/json", encoding:"UTF-8")
-         return
+         return [result: [status:'ok', message:'Your template is ready!', json:json]]
       }
    }
 
@@ -168,15 +169,7 @@ class OptController {
 
          // VALIDATE
          def validation = optService.validateDocumentInstance(xml)
-         //render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
          return [result: validation]
-         /*
-         if (validation.status == 'error')
-         {
-            render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
-            return
-         }
-         */
       }
    }
 
@@ -199,16 +192,13 @@ class OptController {
          def validation = optService.templateValidator(xml)
          if (validation.status == 'error')
          {
-            render(text: validation as JSON, contentType:"application/json", encoding:"UTF-8")
-            return
+            return [result: validation]
          }
 
 
          // HTML FORM - TODO: move to service
          def html = optService.templateToHTML(xml)
-
-         render(text: html, contentType:"text/html", encoding:"UTF-8")
-         return
+         return [result: [status:'ok', message:'Your HTML Form is ready!', html:html]]
       }
    }
 
@@ -237,15 +227,37 @@ class OptController {
 
          // XML INSTANCE WITH RANDOM DATA
          def instance = optService.clinicalDocumentGeneratorXML(xml)
-
-         //render(text: instance, contentType:"text/xml", encoding:"UTF-8")
          return [result: [status:'ok', message:'Your instance is ready!', instance:instance]]
       }
    }
 
    def json_instance_generator()
    {
-      // TODO
+      if (params.doit)
+      {
+         // UPLOAD
+         def upload = processUpload('file', request, response, session)
+         if (upload.status == 'error')
+         {
+            render(text: upload as JSON, contentType:"application/json", encoding:"UTF-8")
+            return
+         }
+
+         def xml = upload.contents
+
+
+         // VALIDATE
+         def validation = optService.templateValidator(xml)
+         if (validation.status == 'error')
+         {
+            return [result: validation]
+         }
+
+
+         // JSON INSTANCE WITH RANDOM DATA
+         def instance = optService.clinicalDocumentGeneratorJSON(xml)
+         return [result: [status:'ok', message:'Your instance is ready!', instance:instance]]
+      }
    }
 
    def html_instance_render()

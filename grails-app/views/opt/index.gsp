@@ -94,7 +94,7 @@
       </g:each>
     </div>
     <script>
-    $('h3').on('click', function(){
+    $('.row h3').on('click', function(){
 
       it = $(this);
       if (!it.hasClass('folded'))

@@ -49,11 +49,11 @@
 
           <div class="form-group row">
             <div class="col-md-3">
-              <label class="align-label">Upload an openEHR template:</label>
+              <label class="align-label">Upload an openEHR instance:</label>
             </div>
             <div class="custom-file col-md-7">
               <input type="file" class="custom-file-input" name="file" id="validatedCustomFile" required="true">
-              <label class="custom-file-label" for="validatedCustomFile">Choose Operational Template XML File...</label>
+              <label class="custom-file-label" for="validatedCustomFile">Choose Clinical Document XML File...</label>
               <div class="invalid-feedback">Example invalid custom file feedback</div>
             </div>
             <div class="col-md-2">

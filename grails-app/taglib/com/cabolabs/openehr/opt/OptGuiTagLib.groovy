@@ -19,6 +19,10 @@ class OptGuiTagLib {
       'INSTRUCTION': 'paper-plane',
       'ACTION': 'flash',
       'ADMIN_ENTRY': 'gear',
+      'HISTORY': 'list-alt',
+      'EVENT': 'calendar',
+      'POINT_EVENT': 'calendar',
+      'INTERVAL_EVENT': 'calendar',
       'ITEM_TREE': 'sitemap',
       'ITEM_TABLE': 'table',
       'ITEM_LIST': 'list',
@@ -68,7 +72,7 @@ class OptGuiTagLib {
        def s = ''
        if (typeIcon[o.rmTypeName])
        {
-          s = $/<span class="fa-stack fa-lg">
+          s = $/<span class="fa-stack">
           <i class="fa fa-circle fa-stack-2x"></i>
           <i class="fa fa-${typeIcon[o.rmTypeName]} fa-stack-1x fa-inverse" aria-hidden="true"></i>
           </span>/$
