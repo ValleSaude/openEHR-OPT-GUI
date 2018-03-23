@@ -35,11 +35,14 @@ import org.xml.sax.SAXParseException
 
 import groovy.util.slurpersupport.GPathResult
 //import grails.util.Holders
+import grails.core.GrailsApplication
 
 import grails.config.Config
 import grails.core.support.GrailsConfigurationAware
 
 class XmlValidationService implements GrailsConfigurationAware {
+
+   GrailsApplication grailsApplication
 
    def errors = []
 
