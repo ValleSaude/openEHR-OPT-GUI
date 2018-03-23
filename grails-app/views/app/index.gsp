@@ -8,7 +8,7 @@
     <section>
       <div class="container">
         <h1>CaboLabs openEHR Toolkit (CoT)</h1>
-
+        <!-- ${createLink(uri: '/')} -->
 <%--
         <ul>
           <li>*Template Viewer</li>
@@ -177,7 +177,7 @@
 
           <div class="card">
              <div class="card-img-top center">
-               <img src="/static/CloudEHRServer_alpha_72.png" />
+               <img src="static/CloudEHRServer_alpha_72.png" />
              </div>
              <div class="card-body no-bottom">
                 <h4 class="card-title text-center">
