@@ -98,7 +98,7 @@ class XmlValidationService implements GrailsConfigurationAware {
       if (!xsd.exists()) // try to load from resources
       {
          // getResource returns a ServletContextResource
-         def xsdInputStream = Holders.grailsApplication.parentContext.getResource(xsdPath).inputStream
+         def xsdInputStream = grailsApplication.parentContext.getResource(xsdPath).inputStream
 
          // resource on xsd\Version.xsd = null
          println "resource on "+ xsdPath +" = "+ xsdInputStream
