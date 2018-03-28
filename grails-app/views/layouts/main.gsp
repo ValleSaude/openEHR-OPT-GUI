@@ -87,6 +87,15 @@
         padding-top: 0;
       }
     }
+    footer {
+      border-top: 1px solid #D4D4D4;
+      padding: 20px;
+      background-color: #e6e6e6;
+      text-align: center;
+    }
+    .modal-body {
+      text-align: left;
+    }
 
     .card-img-top.center {
       text-align: center;
@@ -122,6 +131,53 @@
       </div>
       <g:layoutBody/>
     </main>
+
+    <footer>
+      <div class="container">
+
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#feedback_modal">
+          Please give us feedback!
+        </button>
+
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#privacy_modal">
+          Privacy policy
+        </button>
+
+        <g:render template="/messaging/feedback" />
+
+        <div class="modal fade bd-example-modal-lg" id="privacy_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Privacy policy</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+
+                <p>
+                  The CaboLabs openEHR Toolkit doesn't store any information provided by the users or
+                  any generated objects (templates, forms, HTML, clinical document instances, etc.)
+                </p>
+                <p>
+                  All the services are currently state-less, and each call is processed individually.
+                  In the future we will provide services with storage, and we will update this privacy
+                  policy accordingly.
+                </p>
+                <p>
+                  The CaboLabs openEHR Toolkit doesn't share any information provided by the users
+                  with other CaboLabs applications or third party applications. All your information
+                  is accessible by you and only you.
+                </p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </footer>
 
     <%--
     <asset:javascript src="application.js"/>

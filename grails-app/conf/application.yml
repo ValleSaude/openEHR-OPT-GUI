@@ -1,12 +1,20 @@
 ---
 server:
     port: 8095
-
 ---
 app:
     opt_xsd: "xsd/OperationalTemplate.xsd"
     version_xsd: "xsd/Version.xsd"
     opt_repo: "opts"
+---
+grails:
+    mail:
+        host: ${EHRSERVER_EMAIL_HOST}
+        port: ${EHRSERVER_EMAIL_PORT}
+        username: ${EHRSERVER_EMAIL_USER}
+        password: ${EHRSERVER_EMAIL_PASS}
+        default:
+            from: ${EHRSERVER_EMAIL_FROM}
 ---
 grails:
     profile: web
