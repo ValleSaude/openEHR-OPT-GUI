@@ -10,28 +10,28 @@ class OptGuiTagLib {
     // icon for each IM type
     // TODO: more data values
     static typeIcon = [
-      'FOLDER': 'folder-open',
-      'COMPOSITION': 'file-text-o',
-      'EVENT_CONTEXT': 'info',
-      'SECTION': 'chevron-left',
-      'OBSERVATION': 'eye',
-      'EVALUATION': 'refresh',
-      'INSTRUCTION': 'paper-plane',
-      'ACTION': 'flash',
-      'ADMIN_ENTRY': 'gear',
-      'HISTORY': 'list-alt',
-      'EVENT': 'calendar',
-      'POINT_EVENT': 'calendar',
+      'FOLDER':         'folder-open',
+      'COMPOSITION':    'file-text-o',
+      'EVENT_CONTEXT':  'info',
+      'SECTION':        'chevron-left',
+      'OBSERVATION':    'eye',
+      'EVALUATION':     'refresh',
+      'INSTRUCTION':    'paper-plane',
+      'ACTION':         'flash',
+      'ADMIN_ENTRY':    'gear',
+      'HISTORY':        'list-alt',
+      'EVENT':          'calendar',
+      'POINT_EVENT':    'calendar',
       'INTERVAL_EVENT': 'calendar',
-      'ITEM_TREE': 'sitemap',
-      'ITEM_TABLE': 'table',
-      'ITEM_LIST': 'list',
-      'ITEM_SINGLE': 'circle-o',
-      'CLUSTER': 'sitemap',
-      'ELEMENT': 'pencil',
-      'DV_DATE': 'calendar',
-      'DV_DATE_TIME': 'calendar',
-      'DV_TEXT': 'font',
+      'ITEM_TREE':     'sitemap',
+      'ITEM_TABLE':    'table',
+      'ITEM_LIST':     'list',
+      'ITEM_SINGLE':   'circle-o',
+      'CLUSTER':       'sitemap',
+      'ELEMENT':       'pencil',
+      'DV_DATE':       'calendar',
+      'DV_DATE_TIME':  'calendar',
+      'DV_TEXT':       'font',
       'DV_CODED_TEXT': 'list-ul'
     ]
 
@@ -139,8 +139,8 @@ class OptGuiTagLib {
        if (o.type == 'ARCHETYPE_SLOT')
        {
          row([], {
-            $/<label class="col-sm-2 control-label">Undefined slot to</label>
-            <div class="col-sm-10">${o.xmlNode.includes.expression.right_operand.item.pattern.text()}</div>/$
+            $/<label class="col-sm-2 control-label">Unresolved slot to</label>
+            <div class="col-sm-10">${o.includes}</div>/$
          })
        }
 
